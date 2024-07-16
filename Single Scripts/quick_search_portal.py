@@ -8,6 +8,14 @@ from difflib import SequenceMatcher as SM
 import pandas as pd
 import time
 import sys
+import webbrowser
+from tempfile import NamedTemporaryFile
+
+def df_show(df):
+    with NamedTemporaryFile(delete=False, suffix='.html', mode = 'r+') as f:
+        html_str = df.to_html(render_links=True)
+        f.write(html_str)
+    webbrowser.open(f.name)
 
 PORTAL_ITEM_TYPES = ['360 VR Experience','CityEngine Web Scene','Map Area','Pro Map','Web Map','Web Scene','Feature Collection','Feature Collection Template','Feature Service','Geodata Service','Group Layer','Image Service','KML','KML Collection','Map Service','OGCFeatureServer','Oriented Imagery Catalog','Relational Database Connection','3DTilesService','Scene Service','Vector Tile Service','WFS','WMS','WMTS','Geometry Service','Geocoding Service','Geoprocessing Service','Network Analysis Service','Workflow Manager Service','AppBuilder Extension','AppBuilder Widget Package','Code Attachment','Dashboard','Data Pipeline','Deep Learning Studio Project','Esri Classification Schema','Excalibur Imagery Project','Experience Builder Widget','Experience Builder Widget Package','Form','GeoBIM Application','GeoBIM Project','Hub Event','Hub Initiative','Hub Initiative Template','Hub Page','Hub Project','Hub Site Application','Insights Workbook','Insights Workbook Package','Insights Model','Insights Page','Insights Theme','Insights Data Engineering Workbook','Insights Data Engineering Model','Investigation','Knowledge Studio Project','Mission','Mobile Application','Notebook','Notebook Code Snippet Library','Native Application','Native Application Installer','Ortho Mapping Project','Ortho Mapping Template','Solution','StoryMap','Web AppBuilder Widget','Web Experience','Web Experience Template','Web Mapping Application','Workforce Project','Administrative Report','Apache Parquet','CAD Drawing','Color Set','Content Category Set','CSV','Document Link','Earth configuration','Esri Classifier Definition','Export Package','File Geodatabase','GeoJson','GeoPackage','GML','Image','iWork Keynote','iWork Numbers','iWork Pages','Microsoft Excel','Microsoft Powerpoint','Microsoft Word','PDF','Report Template','Service Definition','Shapefile','SQLite Geodatabase','Statistical Data Collection','StoryMap Theme','Style','Symbol Set','Visio Document','ArcPad Package','Compact Tile Package','Explorer Map','Globe Document','Layout','Map Document','Map Package','Map Template','Mobile Basemap Package','Mobile Map Package','Mobile Scene Package','Project Package','Project Template','Published Map','Scene Document','Task File','Tile Package','Vector Tile Package','Explorer Layer','Image Collection','Layer','Layer Package','Pro Report','Scene Package','3DTilesPackage','Desktop Style','ArcGIS Pro Configuration','Deep Learning Package','Geoprocessing Package','Geoprocessing Package (Pro version)','Geoprocessing Sample','Locator Package','Raster function template','Rule Package','Pro Report Template','ArcGIS Pro Add In','Code Sample','Desktop Add In','Desktop Application','Desktop Application Template','Explorer Add In','Survey123 Add In','Workflow Manager Package']
 #ARC_ITEM_FIELDS = ['id', 'owner', 'created', 'isOrgItem', 'modified', 'guid', 'name', 'title', 'type', 'typeKeywords', 'description', 'tags', 'snippet', 'thumbnail', 'documentation', 'extent', 'categories', 'spatialReference', 'accessInformation', 'licenseInfo', 'culture', 'properties', 'advancedSettings', 'url', 'proxyFilter', 'access', 'subInfo', 'appCategories', 'industries', 'languages', 'largeThumbnail', 'banner', 'screenshots', 'listed', 'ownerFolder', 'protected', 'numComments', 'numRatings', 'avgRating', 'numViews', 'scoreCompleteness', 'groupDesignations', 'lastViewed']
@@ -123,15 +131,19 @@ def portal_match_search(items: list, params: dict, match_type: str = 'Exact', fu
 
 # -------------------------------------------
 #Configs
-url = 'https://geo.epa.ohio.gov/portal'
+url = ''
 fuzz_tol = 0.80
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
-
 #Main Script
 allow_pass = False
 while allow_pass is False:
+    if url == '':
+        url = input('Input your portal URL: ')
+        if 'https://' not in url and url != '':
+            url = 'https://' + url
+
     username = input('Input your username: ')
     password = input('Input your password: ')
 
@@ -190,26 +202,32 @@ while repeat_match is True:
 
         if field in ARC_ITEM_FIELDS:
             allow_pass = True
-        elif field in [i for i,v in enumerate(ARC_ITEM_FIELDS)]:
-            field = ARC_ITEM_FIELDS(int(i))
+        elif field in [str(i+1) for i,v in enumerate(ARC_ITEM_FIELDS)]:
+            field = ARC_ITEM_FIELDS[int(field)-1]
             allow_pass = True
         else:
             print('Invalid field provided.\n')
 
 
+    #Search Value
     search_val = input('Value to search for: ')
 
     matches = portal_match_search(items = items, params = {field:search_val}, match_type = match_type, fuzzy_tolerance = fuzz_tol)
 
     print(f'Number of matches found: {len(matches)}\n')
 
-    if len(matches) > 0: # ---------------------------------------------------HERE ----------------------------------------------------
+    #Show Search Results
+    if len(matches) > 0:
         matches = pd.DataFrame(matches)
-        #matches = matches[['title','owner','type','id']]
-        #matches['url'] = url + 'l/home/item.html?id=' + matches['id']
-        matches = matches[['title','owner','type']] #matches[['title','owner','type','url']]
-        print(matches)
-
+        matches = matches[['title','owner','type','id']]
+        matches['url'] = url + '/home/item.html?id=' + matches['id']
+        matches = matches[['title','owner','type','url']]
+        print('Opening matches data in web browser...')
+        time.sleep(1)
+        df_show(matches)
+        print('See web browser for search results.\n')
+    
+    #Ask to Search Again
     allow_pass = False
     while allow_pass is False:
         repeat_match = input('Would you like to search again (Y/N): ')
