@@ -1,2 +1,6 @@
 # py-minis
-A repo for small Python scripts/apps.
+A repo for small Python scripts.
+
+## File Tools
+* `hash_compare.py`: A tool for finding duplicate files that outputs a table-like object with matched hash values in two directories.
+* `xml_flatten.py`: A method for (mostly) converting an xml file to a table-like object (requires `lxml`).
