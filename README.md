@@ -9,4 +9,4 @@ A repo for small Python scripts.
 * `XML Flatten`: A method for (mostly) converting an xml file to a table-like object (requires `lxml`).
 
 ## Web
-* `is_it_still_down.py`: A tool to notify you with audio when a webpage is back up.
+* `Is It Still Down`: A tool to notify you with audio when a webpage is back up.
