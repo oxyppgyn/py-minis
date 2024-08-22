@@ -1,4 +1,4 @@
-# py-minis
+# Python Minis
 A repo for small Python scripts.
 
 ## GIS
