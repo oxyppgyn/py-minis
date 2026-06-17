@@ -1,5 +1,5 @@
 # Python Minis
-A repo for small Python scripts.
+A repo for small Python scripts. Most scripts here are either highly specific or written quickly to be used for a one-off scenario and as a result are not regularly updated.
 
 ## GIS
 * `ArcGIS Portal Login Tracker`: Records user logins for an organization's ArcGIS Portal to create usage statistics.
