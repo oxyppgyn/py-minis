@@ -5,10 +5,13 @@ A repo for small Python scripts. Most scripts here are either highly specific or
 * `ArcGIS Portal Login Tracker`: Records user logins for an organization's ArcGIS Portal to create usage statistics.
 * `ArcGIS Portal Dependencies`: Logs all items in an organization's ArcGIS Portal, their dependencies, and information such as the status of layers (broken or not, etc.) to CSV files.
 * `ArcGIS Portal Metadata Parser`: A simple XML file parsing tool for ArcGIS Portal to create flat output tables.
+* `Point to Raster Location`: Converts point data to raster cell row and column numbers in ArcGIS Pro.
+* `ArcGIS REST Tool`: Tools for grabbing information about ArcGIS REST services (such as lists of layers in them).
 
 ## File Tools
 * `Hash Compare`: A tool for finding duplicate files that outputs a table-like object with matched hash values in two directories.
 * `XML Flatten`: A method for (mostly) converting an xml file to a table-like object (requires `lxml`).
 
 ## Web
-* `Is It Still Down`: A tool to notify you with audio when a webpage is back up.
+* `Is It Still Down`: A quick tool to notify you with audio when a webpage is back up (result of the day CrowdStrike went down).
+*  `NPSpecies API`: Wrapper for accessing the NPSpecies API.
