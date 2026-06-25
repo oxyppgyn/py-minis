@@ -1,5 +1,5 @@
 # Python Minis
-A repo for small Python scripts. Most scripts here are either highly specific or written quickly to be used for a one-off scenario and as a result are not regularly updated.
+A repo for small Python scripts. Most scripts here are either highly specific or written quickly to be used for a one-off scenario and as a result are not regularly updated. I have since switched mainly to using R, but hope someday, somehow, someone gets some use out of these (did you count how many times I wrote some there).
 
 ## GIS
 * `ArcGIS Portal Login Tracker`: Records user logins for an organization's ArcGIS Portal to create usage statistics.
@@ -7,6 +7,7 @@ A repo for small Python scripts. Most scripts here are either highly specific or
 * `ArcGIS Portal Metadata Parser`: A simple XML file parsing tool for ArcGIS Portal to create flat output tables.
 * `Point to Raster Location`: Converts point data to raster cell row and column numbers in ArcGIS Pro.
 * `ArcGIS REST Tool`: Tools for grabbing information about ArcGIS REST services (such as lists of layers in them).
+* `Geoprocessing Tools`: General geoprocessing functions for ArcGIS Pro (multiple use cases).
 
 ## File Tools
 * `Hash Compare`: A tool for finding duplicate files that outputs a table-like object with matched hash values in two directories.
